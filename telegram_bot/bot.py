@@ -14,10 +14,14 @@ class TelegramBot:
         self.next_update = None
         self.updates = Queue()
 
-    def update(self):
+    def update(self, limit=None, timeout=None):
         options = {}
-        if self.next_update:
-            options = {'offset': self.next_update}
+        if limit is not None:
+            options['limit'] = limit
+        if timeout is not None:
+            options['timeout'] = timeout
+        if self.next_update is not None:
+            options['offset'] = self.next_update
 
         for json_update in self._request('getUpdates', options):
             update = Update(json_update)
@@ -34,6 +38,10 @@ class TelegramBot:
 
     def next(self):
         return self.updates.get().message
+
+    def send_message(self, chat, text):
+        options = {'chat_id': chat.id, 'text': text}
+        self._request('sendMessage', options)
 
     def _request(self, method, options={}):
         json_response = get(self.URL.format(token=self.token, method=method), params=options).text
