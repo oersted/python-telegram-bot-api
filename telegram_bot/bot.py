@@ -39,8 +39,11 @@ class TelegramBot:
     def next(self):
         return self.updates.get().message
 
-    def send_message(self, chat, text):
+    def send_message(self, chat, text, keyboard=None):
         options = {'chat_id': chat.id, 'text': text}
+        if keyboard:
+            options['reply_markup'] = keyboard.to_json()
+
         self._request('sendMessage', options)
 
     def _request(self, method, options={}):
