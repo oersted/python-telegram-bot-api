@@ -46,6 +46,11 @@ class TelegramBot:
 
         self._request('sendMessage', options)
 
+    def send_sticker(self, chat, sticker):
+        options = {'chat_id': chat.id, 'sticker': sticker}
+
+        self._request('sendSticker', options)
+
     def _request(self, method, options={}):
         json_response = get(self.URL.format(token=self.token, method=method), params=options).text
 

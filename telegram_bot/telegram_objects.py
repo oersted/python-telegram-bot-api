@@ -19,9 +19,14 @@ class Chat(JsonObject):
     id = IntegerProperty()
 
 
+class Sticker(JsonObject):
+    file_id = StringProperty()
+
+
 class Message(JsonObject):
     text = StringProperty()
     chat = ObjectProperty(Chat)
+    sticker = ObjectProperty(Sticker)
 
 
 class Update(JsonObject):
