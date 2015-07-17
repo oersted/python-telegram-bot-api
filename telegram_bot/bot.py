@@ -27,7 +27,7 @@ class TelegramBot:
             update = Update(json_update)
             if self.next_update is None:
                 self.next_update = update.update_id
-            elif update.update_id == self.next_update:
+            if update.update_id == self.next_update:
                 self.updates.put(update)
                 self.next_update += 1
             else:
